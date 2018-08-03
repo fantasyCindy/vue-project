@@ -1,0 +1,313 @@
+.f16 {
+    font-size: 16px;
+}
+
+.f13 {
+    font-size: 13px;
+    color: #999;
+}
+
+.colorRed {
+    color: red;
+}
+
+.activeLayer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 10000;
+    background: rgb(0, 0, 0);
+    background: rgba(0, 0, 0, .5);
+    overflow: auto;
+}
+
+.activity {
+    width: 1200px;
+    height: 1305px;
+    margin-left: -600px;
+    background: url(./images/bg.png) no-repeat;
+    position: relative;
+    left: 50%;
+}
+
+.activity-wrap {
+    width: 800px;
+    background: #fff;
+    border-radius: 5px;
+    margin: auto;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -420px;
+    margin-top: -619px;
+    overflow: hidden;
+    box-shadow: -1px 0px 20px 6px rgba(249, 187, 14, 0.23);
+}
+
+.activity-top img {
+    width: 100%;
+}
+
+.activity-content {
+    padding: 15px;
+}
+
+.activity-content .tab {
+    display: inline-block;
+    overflow: hidden;
+    width: 30%;
+    margin-left: 19px;
+}
+
+.activity-content .tab img {
+    width: 100%;
+}
+
+.activity-form1,
+.activity-form2 {
+    width: 286px;
+    margin: 10px auto;
+}
+
+.activity-form1 input,
+.activity-form2 input {
+    width: 100%;
+    height: 35px;
+    border-radius: 4px;
+    border: 1px solid #e4a52e;
+    margin: 5px auto;
+    text-align: center;
+}
+
+.activity-form1 .btn1,
+.activity-form2 .btn2 {
+    width: 70%;
+    margin: 10px auto;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    background: #e7462e;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.activity-form1 .btn1 {
+    margin-top: 30px;
+}
+
+.activity-close {
+    color: #e4a52e;
+    float: right;
+    cursor: pointer;
+}
+
+.activity-form2 .pcode input,
+.activity-form2 .pic input {
+    width: 61%;
+}
+
+.activity-form2 .picCode {
+    width: 36%;
+    height: 35px;
+    overflow: hidden;
+    position: relative;
+    top: 13px;
+    left: 7px;
+    cursor: pointer;
+    margin-top: -5px;
+}
+
+.activity-form2 .phoneCode {
+    display: inline-block;
+    font-size: 12px;
+    width: 36%;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    border-radius: 4px;
+    border: 1px solid #e4a52e;
+    color: #e4a52e;
+    margin-left: 7px;
+    cursor: pointer;
+    position: relative;
+    top: 1px;
+}
+
+.activity-form2 .radio {
+    font-size: 12px;
+}
+
+.activity-form2 .radio input {
+    width: 13px;
+    height: 13px;
+    position: relative;
+    top: 2px;
+    margin-right: 4px;
+}
+
+.activity-form2 .radio a {
+    text-decoration: none;
+    color: #0b7ee4;
+}
+
+.activity-bottom {
+    margin-top: 40px;
+    border-top: 1px dashed #ccc;
+    padding-top: 10px;
+    color: gray;
+    font-size: 15px;
+}
+
+.activity-bottom .txt {
+    line-height: 22px;
+    font-size: 14px;
+}
+
+
+/*success*/
+
+.success {
+    width: 1000px;
+    height: 1071px;
+    margin-left: -500px;
+    background: url(./images/huabian.png) no-repeat;
+    position: relative;
+    left: 50%;
+    top: 3%;
+}
+
+.success-container {
+    width: 800px;
+    background: #fff;
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -420px;
+    margin-top: -502px;
+    box-shadow: -1px 0px 20px 6px rgba(249, 187, 14, 0.23);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.success-banner img {
+    width: 100%;
+}
+
+
+/*refer*/
+
+.success-refer {
+    background: #fff;
+    padding: 40px 20px 20px 30px;
+    position: relative;
+}
+
+.success-refer .status {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    padding: 5px 10px;
+    border-radius: 0 20px 20px 0;
+    background: #e5484b;
+    color: #fff;
+    font-size: 12px;
+}
+
+.success-refer .up .head {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.success-refer .up .head img {
+    height: 100%;
+}
+
+.success-refer .txt {
+    width: 90%;
+}
+
+.success-refer .txt-left {
+    display: inline-block;
+    width: 40%;
+}
+
+.success-refer .title {
+    margin-bottom: 10px;
+}
+
+.success-refer .price {
+    display: block;
+}
+.success-refer .priceText{
+    display: inline-block;
+    margin-top:5px;
+}
+.success-refer .middle {
+    margin: 10px 0;
+}
+
+.success-refer .middle .msg {
+    font-size: 12px;
+    margin-top: 8px;
+    color: #999;
+}
+
+.success-refer .middle .msg.name {
+    color: #000;
+}
+
+.success-refer .dayCount .line {
+    height: 1px;
+    border-bottom: 1px solid #ffe6e9;
+    display: inline-block;
+    width: 60%;
+    position: relative;
+    top: -3px;
+}
+
+.success-refer .dayCount .point {
+    width: 5px;
+    height: 5px;
+    display: inline-block;
+    background: #ffe6e9;
+    border-radius: 50%;
+    position: relative;
+    left: -5px;
+    top: -1px;
+}
+
+.success-refer .dayCount .text {
+    font-size: 13px;
+    color: #666;
+}
+.success-last{
+    margin-top:10px;
+}
+.success-last .msg {
+    color: #666;
+    line-height: 22px;
+    font-size: 14px;
+}
+
+.success-btn {
+    width: 20%;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    background: #e5484b;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 1px 1px 3px 2px #e5484b;
+    margin: 30px auto;
+}
+.success-btn a{
+    color:#fff;
+}

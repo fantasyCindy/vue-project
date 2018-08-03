@@ -1,0 +1,409 @@
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ 0:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(11);
+	var ajax = __webpack_require__(6);
+
+	var verification = function verification(code) {
+		var vcity = {
+			11: "北京",
+			12: "天津",
+			13: "河北",
+			14: "山西",
+			15: "内蒙古",
+			21: "辽宁",
+			22: "吉林",
+			23: "黑龙江",
+			31: "上海",
+			32: "江苏",
+			33: "浙江",
+			34: "安徽",
+			35: "福建",
+			36: "江西",
+			37: "山东",
+			41: "河南",
+			42: "湖北",
+			43: "湖南",
+			44: "广东",
+			45: "广西",
+			46: "海南",
+			50: "重庆",
+			51: "四川",
+			52: "贵州",
+			53: "云南",
+			54: "西藏",
+			61: "陕西",
+			62: "甘肃",
+			63: "青海",
+			64: "宁夏",
+			65: "新疆",
+			71: "台湾",
+			81: "香港",
+			82: "澳门",
+			91: "国外"
+		};
+
+		var checkcode = function checkcode(code) {
+			//是否为空  
+			if (!code || !iscodeNo(code) || !checkProvince(code) || !checkBirthday(code) || !checkParity(code)) {
+				return false;
+			}
+			return true;
+		};
+		//检查号码是否符合规范，包括长度，类型  
+		var iscodeNo = function iscodeNo(code) {
+			//身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X  
+			var reg = /(^\d{15}$)|(^\d{17}(\d|X)$)/;
+			if (reg.test(code) === false) {
+				return false;
+			}
+			return true;
+		};
+		//取身份证前两位,校验省份  
+		var checkProvince = function checkProvince(code) {
+			var province = code.substr(0, 2);
+			if (vcity[province] == undefined) {
+				return false;
+			}
+			return true;
+		};
+		//检查生日是否正确  
+		var checkBirthday = function checkBirthday(code) {
+			var len = code.length;
+			//身份证15位时，次序为省（3位）市（3位）年（2位）月（2位）日（2位）校验位（3位），皆为数字  
+			if (len == '15') {
+				var re_fifteen = /^(\d{6})(\d{2})(\d{2})(\d{2})(\d{3})$/;
+				var arr_data = code.match(re_fifteen);
+				var year = arr_data[2];
+				var month = arr_data[3];
+				var day = arr_data[4];
+				var birthday = new Date('19' + year + '/' + month + '/' + day);
+				return verifyBirthday('19' + year, month, day, birthday);
+			}
+			//身份证18位时，次序为省（3位）市（3位）年（4位）月（2位）日（2位）校验位（4位），校验位末尾可能为X  
+			if (len == '18') {
+				var re_eighteen = /^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/;
+				var arr_data = code.match(re_eighteen);
+				var year = arr_data[2];
+				var month = arr_data[3];
+				var day = arr_data[4];
+				var birthday = new Date(year + '/' + month + '/' + day);
+				return verifyBirthday(year, month, day, birthday);
+			}
+			return false;
+		};
+		//校验日期  
+		var verifyBirthday = function verifyBirthday(year, month, day, birthday) {
+			var now = new Date();
+			var now_year = now.getFullYear();
+			//年月日是否合理  
+			if (birthday.getFullYear() == year && birthday.getMonth() + 1 == month && birthday.getDate() == day) {
+				//判断年份的范围（3岁到100岁之间)  
+				var time = now_year - year;
+				if (time >= 3 && time <= 100) {
+					return true;
+				}
+				return false;
+			}
+			return false;
+		};
+		//校验位的检测  
+		var checkParity = function checkParity(code) {
+			//15位转18位  
+			code = changeFivteenToEighteen(code);
+			var len = code.length;
+			if (len == '18') {
+				var arrInt = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);
+				var arrCh = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');
+				var codeTemp = 0,
+				    i,
+				    valnum;
+				for (i = 0; i < 17; i++) {
+					codeTemp += code.substr(i, 1) * arrInt[i];
+				}
+				valnum = arrCh[codeTemp % 11];
+				if (valnum == code.substr(17, 1)) {
+					return true;
+				}
+				return false;
+			}
+			return false;
+		};
+		//15位转18位身份证号  
+		var changeFivteenToEighteen = function changeFivteenToEighteen(code) {
+			if (code.length == '15') {
+				var arrInt = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);
+				var arrCh = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');
+				var codeTemp = 0,
+				    i;
+				code = code.substr(0, 6) + '19' + code.substr(6, code.length - 6);
+				for (i = 0; i < 17; i++) {
+					codeTemp += code.substr(i, 1) * arrInt[i];
+				}
+				code += arrCh[codeTemp % 11];
+				return code;
+			}
+			return code;
+		};
+
+		return checkcode(code);
+	};
+
+	var myAuth = function () {
+		var container = $('#myAuth'),
+		    affirm = container.find('.affirm'),
+		    state1,
+		    state2;
+		var hint = function hint(el, text) {
+			el.parent().find('.hint').remove();
+			text == '' ? el.parent().find('.hint').remove() : el.parent().append('<div class="hint">' + text + '</div>');
+		};
+		return {
+			init: function init() {
+				$('#name').keyup(_.debounce(function () {
+					var reg = /^([\u4e00-\u9fa5]{2,20}|[a-zA-Z\.\s]{1,20})$/;
+					var text = $(this).val();
+					var status = reg.test(_.trim(text));
+					state1 = status;
+					hint($(this), status ? '' : text == '' ? '姓名不能为空' : '姓名格式错误');
+					state1 && state2 ? affirm.addClass('touch') : affirm.removeClass('touch');
+				}, 1000));
+				$('#code').keyup(_.debounce(function () {
+					var text = $(this).val();
+					var status = verification(_.trim(text));
+					state2 = status;
+					state1 && state2 ? affirm.addClass('touch') : affirm.removeClass('touch');
+					hint($(this), status ? '' : text == '' ? '身份证号不能为空' : '身份证格式错误');
+				}, 1000));
+				container.on('mouseup', '.touch', function () {
+					var send = $('#myAuth_form').serialize();
+					ajax.postJSON('/app/verificationIdCard.htm', send, function (data) {
+						if (data.status == 1) {
+							data = data.data;
+							whether.init();
+						}
+						if (data.status == 90000) {
+							var Count = data.data.validateCount == 0 ? '您的认证机会已用完，请明天再试' : '您还有' + data.data.validateCount + '次认证机会';
+							container.find('.error span').html('身份证号码验证不通过或身份证号码与姓名不匹配，' + Count);
+						}
+						if (data.status == 90001) {
+							layer.msg('以通过实名制认证');
+						}
+						if (data.status == 90004) {
+							container.find('.error span').html('认证次数已用完，请明天再试');
+						}
+						if (data.status == 90005) {
+							container.find('.error span').html('身份证绑定用户数已达上限');
+						}
+					});
+				});
+			}
+		};
+	}();
+
+	var whether = function () {
+		var container = $('#myAuth');
+
+		return {
+			init: function init() {
+				ajax.postJSON('/app/isIdCard.htm', function (data) {
+					data = data.data.isCard;
+					if (!data) {
+						$('#myAuth_form').show();
+						$('#success').hide();
+					} else {
+						$('#success').show();
+						$('#myAuth_form').hide();
+						ajax.postJSON('/app/userIdCard.htm', function (data) {
+							data = data.data;
+							$('#success .message').html(data.username + ' ' + data.idCard);
+						});
+					}
+				});
+			}
+		};
+	}();
+
+	$(function () {
+		if (ynIsLogin && ynTeacherId != '') {
+			location.href = __path;
+		}
+		whether.init();
+		centerMenu.init({
+			render: 'my',
+			light: '实名认证'
+		});
+		myAuth.init();
+	});
+
+/***/ },
+
+/***/ 6:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = {
+	    ajax: function ajax(url, param, callback) {
+	        if (typeof param == "function") {
+	            callback = param;
+	            param = {};
+	        }
+	        $.ajax({
+	            url: url,
+	            data: param,
+	            dataType: 'json',
+	            success: function success(data) {
+	                callback(data);
+	            },
+	            error: function error(err) {
+	                console.log('===err', err);
+	            }
+	        });
+	    },
+	    getJSON: function getJSON(url, param, callback) {
+	        if (typeof param == "function") {
+	            callback = param;
+	            param = {};
+	        }
+	        $.getJSON(url, param, function (back) {
+	            callback(back);
+	        });
+	    },
+	    postJSON: function postJSON(url, param, callback) {
+	        if (typeof param == "function") {
+	            callback = param;
+	            param = {};
+	        }
+	        $.post(url, param, function (back) {
+	            callback(back);
+	        }, 'json');
+	    },
+	    post: function post(url, param, callback) {
+	        if (typeof param == "function") {
+	            callback = param;
+	            param = {};
+	        }
+	        $.post(url, param, function (back) {
+	            callback(back);
+	        });
+	    }
+	};
+
+/***/ },
+
+/***/ 11:
+/***/ function(module, exports) {
+
+	"use strict";
+
+	// 设置菜单高亮
+	yn.navigation.name = ynconfig.navigation.g;
+	yn.logout.path = __path;
+	if (!ynIsLogin) {
+	    setTimeout(function () {
+	        yn.login.render();
+	    }, 100);
+	    yn.login.onClose = function () {
+	        location.href = __path;
+	    };
+	}
+
+	/*----
+
+	个人中心菜单
+
+	1.初始化
+	yn.centerMenu.init({
+	    render:'my',
+	    light:'我的观点'
+	}) 
+
+	1-2.渲染
+	yn.centerMenu.render({type:'my'}) 
+
+	----*/
+	yn.centerMenu = function () {
+	    var container, items, title, light;
+
+	    var createItems = function createItems(arr) {
+	        return _.map(arr, function (item) {
+	            var select = _.trim(item.menuname) == light ? "select" : "";
+	            return "<a class=\"item " + select + "\" id=\"" + item.menu_id + " \" href=\"/" + item.menuurl + "\">\n                    <span class=\"txt \">" + item.menuname + "</span>\n                    <i class=\"fa fa-angle-right \"></i>\n                </a>";
+	        }).join("");
+	    };
+	    return {
+	        init: function init(ops) {
+	            container = $('#centerMenu');
+	            items = container.find('.items');
+	            title = container.find('.title .name');
+	            light = ops.light || "";
+	            ops.render && this.render({ type: ops.render });
+	        },
+	        render: function render(ops) {
+	            ops = _.extend({ type: "center" }, ops);
+	            var types = {
+	                center: { title: "个人设置", url: "/menu/queryWebUserMenu.htm" },
+	                my: { title: "个人中心", url: "/menu/queryWebUserMyMenu.htm" }
+	            };
+
+	            var type = types[ops.type];
+	            var url = type.url;
+	            title.text(type.title);
+	            new yn.loading({ container: items, margin: 200 }).render();
+	            $.getJSON(url, { user_id: ynUserId }, function (data) {
+	                return items.html(createItems(data));
+	            });
+	        }
+	    };
+	}();
+
+/***/ }
+
+/******/ });
